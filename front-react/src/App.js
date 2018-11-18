@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import axios from 'axios';
 
 class App extends Component {
   constructor() {
@@ -14,6 +15,19 @@ class App extends Component {
       ],
       inputValue: ''
     };
+  }
+
+  componentDidMount() {
+    axios
+      .get(
+        'https://script.google.com/macros/s/AKfycbyw9qQBpO7rm89iFWFjaslKcEqm4C72Z2smPh0rtcC68hMVGXI/exec'
+      )
+      .then(response => {
+        console.log(response);
+        this.setState({
+          emojiList: response.data.data
+        });
+      });
   }
 
   hadleChange = e => {
