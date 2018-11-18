@@ -45,6 +45,10 @@ class App extends Component {
           url
       )
       .then(response => {
+        if (response.data.meta.status === 'error') {
+          this.setState({ loadingFlag: false });
+          return alert(response.data.meta.message);
+        }
         this.setState({
           emojiList: response.data.data
         });

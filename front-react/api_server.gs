@@ -6,6 +6,18 @@ function doGet(e) {
   var sheet = SpreadsheetApp.getActiveSheet();
 
   if (e.parameter.url) {
+    var url = e.parameter.url;
+    if (!url.match(/^https:\/\/emoji.slack-edge.com\//)) {
+      response.meta = {
+        status: 'error',
+        message: 'Please send correct slack emoji url'
+      };
+      return ContentService.createTextOutput(
+        JSON.stringify(response)
+      ).setMimeType(ContentService.MimeType.JSON);
+    }
+  }
+  if (e.parameter.url) {
     sheet.appendRow([e.parameter.url, 0]);
   }
 
