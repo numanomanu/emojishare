@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
 import axios from 'axios';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 
 class App extends Component {
   constructor() {
@@ -49,15 +51,26 @@ class App extends Component {
 
   render() {
     return (
-      <div>
+      <div className="App">
         <div>emojishare</div>
-        <input
-          type="text"
-          placeholder="Please add your Emoji's url"
-          value={this.state.inputValue}
-          onChange={this.hadleChange}
-        />
-        <button onClick={this.handleSubmit}>add</button>
+        <div className="button-and-text">
+          <TextField
+            className="text-field"
+            type="text"
+            label="Slack Emoji url"
+            placeholder="Please add your Emoji's url"
+            value={this.state.inputValue}
+            onChange={this.hadleChange}
+            variant="outlined"
+          />
+          <Button
+            onClick={this.handleSubmit}
+            variant="outlined"
+            color="primary"
+          >
+            add
+          </Button>
+        </div>
         <div>
           {this.state.emojiList.map((emoji, i) => (
             <img
@@ -65,6 +78,7 @@ class App extends Component {
               key={'emoji' + i}
               src={emoji.url}
               width="20px"
+              className="image-icon"
             />
           ))}
         </div>
