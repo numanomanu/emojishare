@@ -18,15 +18,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    axios
-      .get(
-        'https://script.google.com/macros/s/AKfycbyw9qQBpO7rm89iFWFjaslKcEqm4C72Z2smPh0rtcC68hMVGXI/exec'
-      )
-      .then(response => {
-        this.setState({
-          emojiList: response.data.data
-        });
-      });
+    this.getData();
   }
 
   hadleChange = e => {
@@ -37,11 +29,15 @@ class App extends Component {
     if (!this.state.inputValue) {
       return;
     }
+    this.getData(this.state.inputValue);
+  };
 
+  getData = inputUrl => {
+    const url = inputUrl ? '?url=' + inputUrl : '';
     axios
       .get(
-        'https://script.google.com/macros/s/AKfycbyw9qQBpO7rm89iFWFjaslKcEqm4C72Z2smPh0rtcC68hMVGXI/exec?url=' +
-          encodeURI(this.state.inputValue)
+        'https://script.google.com/macros/s/AKfycbyw9qQBpO7rm89iFWFjaslKcEqm4C72Z2smPh0rtcC68hMVGXI/exec' +
+          url
       )
       .then(response => {
         this.setState({
