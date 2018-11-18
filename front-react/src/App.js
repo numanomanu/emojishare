@@ -3,6 +3,7 @@ import './App.css';
 import axios from 'axios';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 class App extends Component {
   constructor() {
@@ -15,12 +16,13 @@ class App extends Component {
           likeCount: 0
         }
       ],
-      inputValue: ''
+      inputValue: '',
+      loadingFlag: false
     };
   }
 
   componentDidMount() {
-    this.getData();
+    this.requestApi();
   }
 
   hadleChange = e => {
@@ -31,10 +33,11 @@ class App extends Component {
     if (!this.state.inputValue) {
       return;
     }
-    this.getData(this.state.inputValue);
+    this.requestApi(this.state.inputValue);
   };
 
-  getData = inputUrl => {
+  requestApi = inputUrl => {
+    this.setState({ loadingFlag: true });
     const url = inputUrl ? '?url=' + inputUrl : '';
     axios
       .get(
@@ -45,14 +48,13 @@ class App extends Component {
         this.setState({
           emojiList: response.data.data
         });
+        this.setState({ inputValue: '', loadingFlag: false });
       });
-    this.setState({ inputValue: '' });
   };
 
   render() {
     return (
       <div className="App">
-        <div>emojishare</div>
         <div className="button-and-text">
           <TextField
             className="text-field"
@@ -70,6 +72,7 @@ class App extends Component {
           >
             add
           </Button>
+          <div>{this.state.loadingFlag && <CircularProgress />}</div>
         </div>
         <div>
           {this.state.emojiList.map((emoji, i) => (
