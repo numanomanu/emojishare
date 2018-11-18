@@ -56,6 +56,22 @@ class App extends Component {
       });
   };
 
+  likeCountUp = likedUrl => {
+    axios
+      .get(
+        'https://script.google.com/macros/s/AKfycbyw9qQBpO7rm89iFWFjaslKcEqm4C72Z2smPh0rtcC68hMVGXI/exec?likedUrl=' +
+          likedUrl
+      )
+      .then(response => {
+        if (response.data.meta.status === 'error') {
+          return alert(response.data.meta.message);
+        }
+        this.setState({
+          emojiList: response.data.data
+        });
+      });
+  };
+
   render() {
     return (
       <div className="App">
@@ -80,13 +96,25 @@ class App extends Component {
         </div>
         <div>
           {this.state.emojiList.map((emoji, i) => (
-            <img
-              alt={emoji.url}
-              key={'emoji' + i}
-              src={emoji.url}
-              width="20px"
-              className="image-icon"
-            />
+            <a
+              href={emoji.url}
+              download={'emoji' + i}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="link-text"
+              onClick={() => {
+                this.likeCountUp(emoji.url);
+              }}
+            >
+              <img
+                alt={emoji.url}
+                key={'emoji' + i}
+                src={emoji.url}
+                width="20px"
+                className="image-icon"
+              />
+              <span className="like-count">{emoji.likeCount}</span>
+            </a>
           ))}
         </div>
       </div>

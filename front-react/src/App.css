@@ -44,3 +44,13 @@
 .image-icon {
   margin: 5px;
 }
+
+.link-text {
+  text-decoration: none;
+}
+
+.like-count {
+  font-style: normal;
+  color: #aaa;
+  font-size: 10px;
+}
